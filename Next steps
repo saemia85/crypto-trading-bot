@@ -1,0 +1,153 @@
+Next steps:
+Create your .env file:
+
+Click Add file → Create new file
+
+Name it .env (no extension)
+
+Copy the contents from .env.example I gave you, then replace the placeholders with your actual Alpaca API keys.
+
+Commit it with a message like: Add .env with API keys
+
+
+
+
+Train your model:
+
+Now you’ll need to train the ML model before running the bot.
+
+You can do this locally if you have Python installed, or on a server later.
+
+
+
+
+
+Run training locally (optional but recommended):
+
+If you want, I can guide you through installing Python and running the training script on your computer. Just tell me your OS (Windows/Mac/Linux).
+
+
+
+
+
+Run the bot:
+
+After training, the bot file (crypto_trading_bot.py) will use the trained model (model.pkl) to trade.
+
+I’ll help you set up everything to run it either locally or on AWS.
+
+
+
+
+1. Training the Model Locally
+Step A: Install Python & Tools
+Windows: Download and install from python.org/downloads (make sure to check “Add Python to PATH” during install)
+
+Mac: Python 3 comes pre-installed; you can install via Homebrew (brew install python) if needed
+
+Linux: Use your package manager, e.g., sudo apt install python3 python3-pip
+
+Step B: Setup your project folder locally
+Clone your GitHub repo to your local machine (or create a folder and copy files there)
+
+Open terminal/command prompt, navigate to the folder
+
+bash
+Copy
+git clone https://github.com/your-username/crypto-trading-bot.git
+cd crypto-trading-bot
+Step C: Create & activate a virtual environment (optional but recommended)
+bash
+Copy
+python -m venv venv
+# Windows
+venv\Scripts\activate
+# Mac/Linux
+source venv/bin/activate
+Step D: Install dependencies
+bash
+Copy
+pip install -r requirements.txt
+Step E: Prepare your .env file locally
+Create .env in the project root
+
+Add your API keys (copy from .env.example and fill)
+
+Step F: Train the model
+bash
+Copy
+python train_model.py
+This will create model.pkl in your folder.
+
+2. Running the Bot Locally
+Make sure:
+
+Your .env file has the correct keys
+
+model.pkl exists after training
+
+Run:
+
+bash
+Copy
+python crypto_trading_bot.py
+The bot will start and run continuously (it checks data every minute). You can stop it anytime with Ctrl + C.
+
+3. Deploying on AWS EC2 (Summary)
+Step A: Create AWS account
+Sign up at aws.amazon.com if you don’t have an account
+
+Step B: Launch an EC2 instance
+Go to EC2 Dashboard
+
+Click Launch Instance
+
+Choose Amazon Linux 2 AMI (Free tier eligible)
+
+Choose t2.micro instance type (free tier)
+
+Configure details, storage (default is fine)
+
+Configure security group: allow SSH (port 22) and optionally port 8888 if using Jupyter or custom ports
+
+Review and launch (you’ll create/download a key pair for SSH access)
+
+Step C: SSH into your instance
+bash
+Copy
+ssh -i /path/to/your-key.pem ec2-user@your-ec2-public-ip
+Step D: Install Docker
+bash
+Copy
+sudo yum update -y
+sudo amazon-linux-extras install docker
+sudo service docker start
+sudo usermod -a -G docker ec2-user
+Log out and back in or run newgrp docker for group changes to take effect
+
+Step E: Clone your GitHub repo on EC2
+bash
+Copy
+git clone https://github.com/your-username/crypto-trading-bot.git
+cd crypto-trading-bot
+Step F: Add .env file on EC2
+Use nano .env and paste your API keys
+
+Step G: Build and run Docker container
+bash
+Copy
+docker build -t crypto-bot .
+docker run -d --env-file .env crypto-bot
+Step H: Monitor logs
+bash
+Copy
+docker logs -f container_id
+Notes:
+Replace your-username and your-ec2-public-ip with your actual GitHub username and EC2 IP
+
+Keep your .pem key safe
+
+You can stop/start your instance via AWS console
+
+
+
