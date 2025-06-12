@@ -1,0 +1,8 @@
+pandas
+numpy
+scikit-learn
+lightgbm
+joblib
+alpaca-trade-api
+python-dotenv
+requests
